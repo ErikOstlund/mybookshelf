@@ -3,8 +3,8 @@
 - [NodeJS][https://nodejs.org] `12 || 14 || 15 || 16`
 - [npm][https://www.npmjs.com/] v6 or greater
 
-All of these must be available in the project `PATH`. To verify things are set up
-properly, run this:
+All of these must be available in the project `PATH`. To verify things are set
+up properly, run this:
 
 ```shell
 node -v  or  node --version
@@ -22,6 +22,8 @@ npm install
 ```shell
 npm start
 ```
+
+Go to: http://localhost:3000/
 
 ## Running the tests
 
