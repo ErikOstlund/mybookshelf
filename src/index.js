@@ -1,9 +1,8 @@
-export * from './index.final'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-// export * from './index.exercise'
+function App() {
+  return <div>Hello, Bookshelf!</div>
+}
 
-// 💯 Use `@reach/dialog`
-// export * from './index.extra-1'
-
-// 💯 Create a LoginForm component
-// export * from './index.extra-2'
+ReactDOM.render(<App />, document.getElementById('root'))
