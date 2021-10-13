@@ -7,6 +7,13 @@ function App() {
   return (
     <div>
       <Logo width="80" height="80" />
+      <h1>My Bookshelf</h1>
+      <div>
+        <button onClick={() => alert('Login clicked!')}>Login</button>
+      </div>
+      <div>
+        <button onClick={() => alert('Register clicked!')}>Register</button>
+      </div>
     </div>
   )
 }
