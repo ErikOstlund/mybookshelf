@@ -1,11 +1,11 @@
 import '@reach/dialog/styles.css'
-import React from 'react'
+import * as React from 'react'
 import ReactDOM from 'react-dom'
-import { Dialog } from '@reach/dialog'
+import { Modal, ModalContents, ModalOpenButton } from './components/modal'
 import { Logo } from './components/logo'
 
 // Login/Register Form: will refactor later!
-function LoginForm({ onSubmit, buttonText }) {
+function LoginForm({ onSubmit, submitButton }) {
   function handleSubmit(event) {
     event.preventDefault()
     const { username, password } = event.target.elements
@@ -26,16 +26,12 @@ function LoginForm({ onSubmit, buttonText }) {
         <label htmlFor="password">Password</label>
         <input id="password" type="password" />
       </div>
-      <div>
-        <button type="submit">{buttonText}</button>
-      </div>
+      <div>{React.cloneElement(submitButton, { type: 'submit' })}</div>
     </form>
   )
 }
 
 function App() {
-  const [openModel, setOpenModel] = React.useState('none')
-
   function login(formData) {
     console.log('login: ', formData)
   }
@@ -48,30 +44,29 @@ function App() {
     <div>
       <Logo width="80" height="80" />
       <h1>My Bookshelf</h1>
+
       <div>
-        <button onClick={() => setOpenModel('login')}>Login</button>
+        <Modal>
+          <ModalOpenButton>
+            <button>Login</button>
+          </ModalOpenButton>
+          <ModalContents aria-label="Login form" title="Login">
+            <LoginForm onSubmit={login} submitButton={<button>Login</button>} />
+          </ModalContents>
+        </Modal>
+
+        <Modal>
+          <ModalOpenButton>
+            <button>Register</button>
+          </ModalOpenButton>
+          <ModalContents aria-label="Registration form" title="Register">
+            <LoginForm
+              onSubmit={register}
+              submitButton={<button>Register</button>}
+            />
+          </ModalContents>
+        </Modal>
       </div>
-      <div>
-        <button onClick={() => setOpenModel('register')}>Register</button>
-      </div>
-
-      <Dialog aria-label="Login form" isOpen={openModel === 'login'}>
-        <div>
-          <button onClick={() => setOpenModel('none')}>Close</button>
-        </div>
-        <h3>Login</h3>
-
-        <LoginForm onSubmit={login} buttonText="Login" />
-      </Dialog>
-
-      <Dialog aria-label="Registration form" isOpen={openModel === 'register'}>
-        <div>
-          <button onClick={() => setOpenModel('none')}>Close</button>
-        </div>
-        <h3>Register</h3>
-
-        <LoginForm onSubmit={register} buttonText="Register" />
-      </Dialog>
     </div>
   )
 }
