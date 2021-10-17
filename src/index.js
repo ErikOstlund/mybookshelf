@@ -1,6 +1,8 @@
+import 'bootstrap/dist/css/bootstrap-reboot.css'
 import '@reach/dialog/styles.css'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
+import { Button } from './components/lib'
 import { Modal, ModalContents, ModalOpenButton } from './components/modal'
 import { Logo } from './components/logo'
 
@@ -48,21 +50,21 @@ function App() {
       <div>
         <Modal>
           <ModalOpenButton>
-            <button>Login</button>
+            <Button>Login</Button>
           </ModalOpenButton>
           <ModalContents aria-label="Login form" title="Login">
-            <LoginForm onSubmit={login} submitButton={<button>Login</button>} />
+            <LoginForm onSubmit={login} submitButton={<Button>Login</Button>} />
           </ModalContents>
         </Modal>
 
         <Modal>
           <ModalOpenButton>
-            <button>Register</button>
+            <Button variant="secondary">Register</Button>
           </ModalOpenButton>
           <ModalContents aria-label="Registration form" title="Register">
             <LoginForm
               onSubmit={register}
-              submitButton={<button>Register</button>}
+              submitButton={<Button variant="secondary">Register</Button>}
             />
           </ModalContents>
         </Modal>
