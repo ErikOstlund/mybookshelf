@@ -21,14 +21,14 @@ function Modal(props) {
 function ModalDismissButton({ children: child }) {
   const [, setIsOpen] = React.useContext(ModalContext)
   return React.cloneElement(child, {
-    onClick: callAll(() => setIsOpen(false), child.props.onClick),
+    onClick: callAll(() => setIsOpen(false), child.props.onClick)
   })
 }
 
 function ModalOpenButton({ children: child }) {
   const [, setIsOpen] = React.useContext(ModalContext)
   return React.cloneElement(child, {
-    onClick: callAll(() => setIsOpen(true), child.props.onClick),
+    onClick: callAll(() => setIsOpen(true), child.props.onClick)
   })
 }
 

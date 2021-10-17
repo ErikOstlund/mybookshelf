@@ -4,12 +4,12 @@ import { Dialog as ReachDialog } from '@reach/dialog'
 const buttonVariant = {
   primary: {
     background: '#3f51b5',
-    color: 'white',
+    color: 'white'
   },
   secondary: {
     background: '#f1f2f7',
-    color: '#434449',
-  },
+    color: '#434449'
+  }
 }
 
 const Button = styled.button(
@@ -17,11 +17,23 @@ const Button = styled.button(
     padding: '10px 15px',
     border: '0',
     lineHeight: '1',
-    borderRadius: '3px',
+    borderRadius: '3px'
   },
   // if not variant prop is sent, use 'primary'
-  ({ variant = 'primary' }) => buttonVariant[variant],
+  ({ variant = 'primary' }) => buttonVariant[variant]
 )
+
+const Input = styled.input({
+  borderRadius: '3px',
+  border: '1px solid #f1f1f4',
+  background: '#f1f2f7',
+  padding: '8px 12px'
+})
+
+const FormGroup = styled.div({
+  display: 'flex',
+  flexDirection: 'column'
+})
 
 const CircleButton = styled.button({
   borderRadius: '30px',
@@ -35,7 +47,7 @@ const CircleButton = styled.button({
   background: 'white',
   color: '#434449',
   border: `1px solid #f1f1f4`,
-  cursor: 'pointer',
+  cursor: 'pointer'
 })
 
 const Dialog = styled(ReachDialog)({
@@ -46,8 +58,8 @@ const Dialog = styled(ReachDialog)({
   margin: '20vh auto',
   '@media (max-width: 991px)': {
     width: '100%',
-    margin: '10vh auto',
-  },
+    margin: '10vh auto'
+  }
 })
 
-export { Button, CircleButton, Dialog }
+export { Button, CircleButton, Dialog, Input, FormGroup }

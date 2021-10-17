@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap-reboot.css'
 import '@reach/dialog/styles.css'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import { Button } from './components/lib'
+import { Button, FormGroup, Input } from './components/lib'
 import { Modal, ModalContents, ModalOpenButton } from './components/modal'
 import { Logo } from './components/logo'
 
@@ -14,20 +14,22 @@ function LoginForm({ onSubmit, submitButton }) {
 
     onSubmit({
       username: username.value,
-      password: password.value,
+      password: password.value
     })
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <FormGroup>
         <label htmlFor="username">Username</label>
-        <input id="username" type="text" />
-      </div>
-      <div>
+        <Input id="username" type="text" />
+      </FormGroup>
+
+      <FormGroup>
         <label htmlFor="password">Password</label>
-        <input id="password" type="password" />
-      </div>
+        <Input id="password" type="password" />
+      </FormGroup>
+
       <div>{React.cloneElement(submitButton, { type: 'submit' })}</div>
     </form>
   )
