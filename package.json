@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "author": "Erik Ostlund",
   "license": "GPL-3.0-only",
+  "homepage": "https://exercises-03-data-fetching.bookshelf.lol/",
   "engines": {
     "node": "12 || 14 || 15 || 16",
     "npm": ">=6"
