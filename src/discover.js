@@ -7,7 +7,7 @@ import Tooltip from '@reach/tooltip'
 import { FaSearch } from 'react-icons/fa'
 import { Input, BookListUL, Spinner } from './components/lib'
 import { BookRow } from './components/book-row'
-// import { client } from './utils/api-client'
+import { client } from './utils/api-client'
 
 function DiscoverBooksScreen() {
   const [status, setStatus] = React.useState('idle')
@@ -25,17 +25,11 @@ function DiscoverBooksScreen() {
       return
     }
     setStatus('loading')
-    window
-      .fetch(
-        `${process.env.REACT_APP_API_URL}/books?query=${encodeURIComponent(
-          query
-        )}`
-      )
-      .then(response => response.json())
-      .then(responseData => {
-        setData(responseData)
-        setStatus('success')
-      })
+    // api call
+    client(`books?query=${encodeURIComponent(query)}`).then(responseData => {
+      setData(responseData)
+      setStatus('success')
+    })
   }, [query, queried])
 
   function handleSearchSubmit(event) {
