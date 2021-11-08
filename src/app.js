@@ -1,112 +1,25 @@
-// So we can use 'css' as a prop
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 
-import 'bootstrap/dist/css/bootstrap-reboot.css'
-import '@reach/dialog/styles.css'
 import * as React from 'react'
-import ReactDOM from 'react-dom'
-import { Button, FormGroup, Input, Spinner } from './components/lib'
-import { Modal, ModalContents, ModalOpenButton } from './components/modal'
-import { Logo } from './components/logo'
-
-// Login/Register Form: will refactor later!
-function LoginForm({ onSubmit, submitButton }) {
-  function handleSubmit(event) {
-    event.preventDefault()
-    const { username, password } = event.target.elements
-
-    onSubmit({
-      username: username.value,
-      password: password.value
-    })
-  }
-
-  return (
-    <form
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        '> div': {
-          margin: '10px auto',
-          width: '100%',
-          maxWidth: '300px'
-        }
-      }}
-      onSubmit={handleSubmit}
-    >
-      <FormGroup>
-        <label htmlFor="username">Username</label>
-        <Input id="username" type="text" />
-      </FormGroup>
-
-      <FormGroup>
-        <label htmlFor="password">Password</label>
-        <Input id="password" type="password" />
-      </FormGroup>
-
-      <div>
-        {React.cloneElement(submitButton, { type: 'submit' })}
-        <Spinner />
-      </div>
-    </form>
-  )
-}
+// 🐨 you're going to need this:
+// import * as auth from 'auth-provider'
+import { AuthenticatedApp } from './authenticated-app'
+import { UnauthenticatedApp } from './unauthenticated-app'
 
 function App() {
-  function login(formData) {
-    console.log('login: ', formData)
-  }
+  // 🐨 useState for the user
 
-  function register(formData) {
-    console.log('register: ', formData)
-  }
+  // 🐨 create a login function that calls auth.login then sets the user
+  // 💰 const login = form => auth.login(form).then(u => setUser(u))
+  // 🐨 create a registration function that does the same as login except for register
 
-  return (
-    <div
-      css={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '100vh'
-      }}
-    >
-      <Logo width="80" height="80" />
-      <h1>My Bookshelf</h1>
+  // 🐨 create a logout function that calls auth.logout() and sets the user to null
 
-      <div
-        css={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-          gridGap: '0.75rem'
-        }}
-      >
-        <Modal>
-          <ModalOpenButton>
-            <Button>Login</Button>
-          </ModalOpenButton>
-          <ModalContents aria-label="Login form" title="Login">
-            <LoginForm onSubmit={login} submitButton={<Button>Login</Button>} />
-          </ModalContents>
-        </Modal>
+  // 🐨 if there's a user, then render the AuthenticatedApp with the user and logout
+  // 🐨 if there's not a user, then render the UnauthenticatedApp with login and register
 
-        <Modal>
-          <ModalOpenButton>
-            <Button variant="secondary">Register</Button>
-          </ModalOpenButton>
-          <ModalContents aria-label="Registration form" title="Register">
-            <LoginForm
-              onSubmit={register}
-              submitButton={<Button variant="secondary">Register</Button>}
-            />
-          </ModalContents>
-        </Modal>
-      </div>
-    </div>
-  )
+  return <UnauthenticatedApp />
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+export { App }
