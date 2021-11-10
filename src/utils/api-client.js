@@ -1,3 +1,5 @@
+const apiURL = process.env.REACT_APP_API_URL
+
 function client(
   endpoint,
   { token, headers: customHeaders, ...customConfig } = {}
@@ -11,18 +13,16 @@ function client(
     ...customConfig
   }
 
-  return window
-    .fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, config)
-    .then(async response => {
-      const data = await response.json()
-      if (response.ok) {
-        // promise is successfully resolved
-        return data
-      } else {
-        // promise failed
-        return Promise.reject(data)
-      }
-    })
+  return window.fetch(`${apiURL}/${endpoint}`, config).then(async response => {
+    const data = await response.json()
+    if (response.ok) {
+      // promise is successfully resolved
+      return data
+    } else {
+      // promise failed
+      return Promise.reject(data)
+    }
+  })
 }
 
 export { client }
