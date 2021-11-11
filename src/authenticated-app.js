@@ -4,7 +4,7 @@ import { jsx } from '@emotion/core'
 import * as React from 'react'
 import { Button } from './components/lib'
 import * as mq from './styles/media-queries'
-import { DiscoverBooksScreen } from './discover'
+import { DiscoverBooksScreen } from './screens/discover'
 
 function AuthenticatedApp({ user, logout }) {
   return (

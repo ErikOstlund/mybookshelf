@@ -67,10 +67,11 @@ function App() {
   }
 
   if (isSuccess) {
+    const props = { user, login, register, logout }
     return user ? (
-      <AuthenticatedApp user={user} logout={logout} />
+      <AuthenticatedApp {...props} />
     ) : (
-      <UnauthenticatedApp login={login} register={register} />
+      <UnauthenticatedApp {...props} />
     )
   }
 }

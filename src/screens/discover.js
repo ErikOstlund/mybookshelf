@@ -2,14 +2,14 @@
 import { jsx } from '@emotion/core'
 
 import React from 'react'
-import './bootstrap'
+import '../bootstrap'
 import Tooltip from '@reach/tooltip'
 import { FaSearch, FaTimes } from 'react-icons/fa'
-import { Input, BookListUL, Spinner } from './components/lib'
-import { BookRow } from './components/book-row'
-import { client } from './utils/api-client'
-import * as colors from './styles/colors'
-import { useAsync } from './utils/hooks'
+import { Input, BookListUL, Spinner } from '../components/lib'
+import { BookRow } from '../components/book-row'
+import { client } from '../utils/api-client'
+import * as colors from '../styles/colors'
+import { useAsync } from '../utils/hooks'
 
 function DiscoverBooksScreen() {
   const { data, error, run, isLoading, isError, isSuccess } = useAsync()
