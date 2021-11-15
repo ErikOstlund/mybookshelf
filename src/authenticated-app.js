@@ -4,6 +4,7 @@ import { jsx } from '@emotion/core'
 import * as React from 'react'
 import { Button } from './components/lib'
 import * as mq from './styles/media-queries'
+import * as colors from './styles/colors'
 import { DiscoverBooksScreen } from './screens/discover'
 
 function AuthenticatedApp({ user, logout }) {
@@ -43,10 +44,76 @@ function AuthenticatedApp({ user, logout }) {
           }
         }}
       >
-        <DiscoverBooksScreen />
+        <div css={{ position: 'relative' }}>
+          <Nav />
+        </div>
+        <main css={{ width: '100%' }}>
+          <AppRoutes user={user} />
+        </main>
       </div>
     </React.Fragment>
   )
 }
 
+function NavLink(props) {
+  return (
+    <a
+      css={{
+        display: 'block',
+        padding: '8px 15px 8px 10px',
+        margin: '5px 0',
+        width: '100%',
+        height: '100%',
+        color: colors.text,
+        borderRadius: '2px',
+        borderLeft: '5px solid transparent',
+        ':hover': {
+          color: colors.indigo,
+          textDecoration: 'none',
+          background: colors.gray10
+        }
+      }}
+      {...props}
+    />
+  )
+}
+
+function Nav() {
+  return (
+    <nav
+      css={{
+        position: 'sticky',
+        top: '4px',
+        padding: '1em 1.5em',
+        border: `1px solid ${colors.gray10}`,
+        borderRadius: '3px',
+        [mq.small]: {
+          position: 'static',
+          top: 'auto'
+        }
+      }}
+    >
+      <ul
+        css={{
+          listStyle: 'none',
+          padding: '0'
+        }}
+      >
+        <li>
+          <NavLink href="/discover">Discover</NavLink>
+        </li>
+      </ul>
+    </nav>
+  )
+}
+
+function AppRoutes({ user }) {
+  return null
+}
+
 export { AuthenticatedApp }
+
+/*
+eslint
+  jsx-a11y/anchor-has-content: "off",
+*/
