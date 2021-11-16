@@ -2,6 +2,7 @@
 import { jsx } from '@emotion/core'
 
 import * as React from 'react'
+import { useParams } from 'react-router-dom'
 import { client } from 'utils/api-client'
 import * as mq from 'styles/media-queries'
 import { useAsync } from 'utils/hooks'
@@ -17,7 +18,7 @@ const loadingBook = {
 }
 
 function BookScreen({ user }) {
-  const bookId = '??'
+  const { bookId } = useParams()
   const { data, run } = useAsync()
 
   React.useEffect(() => {

@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 
+import { Link } from 'components/lib'
+
 function NotFoundScreen() {
   return (
     <div
@@ -11,7 +13,10 @@ function NotFoundScreen() {
         justifyContent: 'center'
       }}
     >
-      <div>Sorry... nothing here.</div>
+      <div>
+        Sorry... nothing here.
+        <Link to="/discover"> Home</Link>
+      </div>
     </div>
   )
 }

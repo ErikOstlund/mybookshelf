@@ -2,10 +2,13 @@
 import { jsx } from '@emotion/core'
 
 import * as React from 'react'
+import { Routes, Route, Link } from 'react-router-dom'
 import { Button } from './components/lib'
 import * as mq from './styles/media-queries'
 import * as colors from './styles/colors'
 import { DiscoverBooksScreen } from './screens/discover'
+import { BookScreen } from './screens/book'
+import { NotFoundScreen } from './screens/not-found'
 
 function AuthenticatedApp({ user, logout }) {
   return (
@@ -57,7 +60,7 @@ function AuthenticatedApp({ user, logout }) {
 
 function NavLink(props) {
   return (
-    <a
+    <Link
       css={{
         display: 'block',
         padding: '8px 15px 8px 10px',
@@ -100,7 +103,7 @@ function Nav() {
         }}
       >
         <li>
-          <NavLink href="/discover">Discover</NavLink>
+          <NavLink to="/discover">Discover</NavLink>
         </li>
       </ul>
     </nav>
@@ -108,7 +111,16 @@ function Nav() {
 }
 
 function AppRoutes({ user }) {
-  return null
+  return (
+    <Routes>
+      <Route
+        path="/discover"
+        element={<DiscoverBooksScreen user={user} />}
+      ></Route>
+      <Route path="/book/:bookId" element={<BookScreen user={user} />}></Route>
+      <Route path="*" element={<NotFoundScreen />}></Route>
+    </Routes>
+  )
 }
 
 export { AuthenticatedApp }
