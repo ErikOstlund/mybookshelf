@@ -1,7 +1,7 @@
 import * as auth from 'auth-provider'
 const apiURL = process.env.REACT_APP_API_URL
 
-function client(
+async function client(
   endpoint,
   { data, token, headers: customHeaders, ...customConfig } = {}
 ) {

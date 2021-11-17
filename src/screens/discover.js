@@ -1,41 +1,56 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 
-import React from 'react'
-import '../bootstrap'
+import * as React from 'react'
 import Tooltip from '@reach/tooltip'
 import { FaSearch, FaTimes } from 'react-icons/fa'
-import { Input, BookListUL, Spinner } from '../components/lib'
-import { BookRow } from '../components/book-row'
-import { client } from '../utils/api-client'
-import * as colors from '../styles/colors'
-import { useAsync } from '../utils/hooks'
+import { useAsync } from 'utils/hooks'
+import { client } from 'utils/api-client'
+import * as colors from 'styles/colors'
+import { BookRow } from 'components/book-row'
+import { BookListUL, Spinner, Input } from 'components/lib'
+import bookPlaceholderSvg from 'assets/book-placeholder.svg'
 
-function DiscoverBooksScreen() {
-  const { data, error, run, isLoading, isError, isSuccess } = useAsync()
-  // query is the user's search input
+const loadingBook = {
+  title: 'Loading...',
+  author: 'loading...',
+  coverImageUrl: bookPlaceholderSvg,
+  publisher: 'Loading Publishing',
+  synopsis: 'Loading...',
+  loadingBook: true
+}
+
+const loadingBooks = Array.from({ length: 10 }, (v, index) => ({
+  id: `loading-book-${index}`,
+  ...loadingBook
+}))
+
+function DiscoverBooksScreen({ user }) {
   const [query, setQuery] = React.useState('')
   const [queried, setQueried] = React.useState(false)
+  const { data, error, run, isLoading, isError, isSuccess } = useAsync()
 
-  // make an api call with the query
+  const books = data ?? loadingBooks
+
   React.useEffect(() => {
     if (!queried) {
       return
     }
-    // api call
-    run(client(`books?query=${encodeURIComponent(query)}`))
-  }, [query, queried, run])
+    run(
+      client(`books?query=${encodeURIComponent(query)}`, {
+        token: user.token
+      }).then(data => data.books)
+    )
+  }, [query, queried, run, user.token])
 
   function handleSearchSubmit(event) {
     event.preventDefault()
-    setQuery(event.target.elements.search.value)
     setQueried(true)
+    setQuery(event.target.elements.search.value)
   }
 
   return (
-    <div
-      css={{ maxWidth: 800, margin: 'auto', width: '90vw', padding: '40px 0' }}
-    >
+    <div>
       <form onSubmit={handleSearchSubmit}>
         <Input
           placeholder="Search books..."
@@ -71,13 +86,31 @@ function DiscoverBooksScreen() {
           <pre>{error.message}</pre>
         </div>
       ) : null}
-
+      <div>
+        {queried ? null : (
+          <div css={{ marginTop: 20, fontSize: '1.2em', textAlign: 'center' }}>
+            <p>Welcome to the discover page.</p>
+            <p>Here, let me load a few books for you...</p>
+            {isLoading ? (
+              <div css={{ width: '100%', margin: 'auto' }}>
+                <Spinner />
+              </div>
+            ) : isSuccess && books.length ? (
+              <p>Here you go! Find more books with the search bar above.</p>
+            ) : isSuccess && !books.length ? (
+              <p>
+                Hmmm... I couldn't find any books to suggest for you. Sorry.
+              </p>
+            ) : null}
+          </div>
+        )}
+      </div>
       {isSuccess ? (
-        data?.books?.length ? (
+        books.length ? (
           <BookListUL css={{ marginTop: 20 }}>
-            {data.books.map(book => (
+            {books.map(book => (
               <li key={book.id} aria-label={book.title}>
-                <BookRow key={book.id} book={book} />
+                <BookRow user={user} key={book.id} book={book} />
               </li>
             ))}
           </BookListUL>
