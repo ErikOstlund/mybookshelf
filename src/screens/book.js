@@ -6,39 +6,20 @@ import debounceFn from 'debounce-fn'
 import { FaRegCalendarAlt } from 'react-icons/fa'
 import Tooltip from '@reach/tooltip'
 import { useParams } from 'react-router-dom'
-import { useAsync } from 'utils/hooks'
-import { client } from 'utils/api-client'
+import { useBook } from 'utils/books'
+import { useListItem, useUpdateListItem } from 'utils/list-items'
 import { formatDate } from 'utils/misc'
 import * as mq from 'styles/media-queries'
 import * as colors from 'styles/colors'
-import { Textarea } from 'components/lib'
+import { Spinner, Textarea, ErrorMessage } from 'components/lib'
 import { Rating } from 'components/rating'
 import { StatusButtons } from 'components/status-buttons'
-import bookPlaceholderSvg from 'assets/book-placeholder.svg'
-
-const loadingBook = {
-  title: 'Loading...',
-  author: 'loading...',
-  coverImageUrl: bookPlaceholderSvg,
-  publisher: 'Loading Publishing',
-  synopsis: 'Loading...',
-  loadingBook: true
-}
 
 function BookScreen({ user }) {
   const { bookId } = useParams()
-  const { data, run } = useAsync()
+  const book = useBook(bookId, user)
+  const listItem = useListItem(bookId, user)
 
-  React.useEffect(() => {
-    run(client(`books/${bookId}`, { token: user.token }))
-  }, [run, bookId, user.token])
-
-  const listItem = null
-  // NOTE: the backend doesn't support getting a single list-item by it's ID
-  // and instead expects us to cache all the list items and look them up in our
-  // cache. This works out OK because we're using react-query for caching!
-
-  const book = data?.book ?? loadingBook
   const { title, author, coverImageUrl, publisher, synopsis } = book
 
   return (
@@ -121,7 +102,7 @@ function ListItemTimeframe({ listItem }) {
 }
 
 function NotesTextarea({ listItem, user }) {
-  const mutate = () => {}
+  const [mutate, { error, isError, isLoading }] = useUpdateListItem(user)
   const debouncedMutate = React.useMemo(
     () => debounceFn(mutate, { wait: 300 }),
     [mutate]
@@ -146,6 +127,14 @@ function NotesTextarea({ listItem, user }) {
         >
           Notes
         </label>
+        {isError ? (
+          <ErrorMessage
+            error={error}
+            variant="inline"
+            css={{ marginLeft: 6, fontSize: '0.7em' }}
+          />
+        ) : null}
+        {isLoading ? <Spinner /> : null}
       </div>
       <Textarea
         id="notes"

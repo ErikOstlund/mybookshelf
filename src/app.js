@@ -4,10 +4,9 @@ import { jsx } from '@emotion/core'
 import * as React from 'react'
 import * as auth from 'auth-provider'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { FullPageSpinner } from './components/lib'
-import * as colors from './styles/colors'
-import { useAsync } from './utils/hooks'
+import { FullPageSpinner, FullPageErrorFallback } from './components/lib'
 import { client } from './utils/api-client'
+import { useAsync } from './utils/hooks'
 import { AuthenticatedApp } from './authenticated-app'
 import { UnauthenticatedApp } from './unauthenticated-app'
 
@@ -19,6 +18,7 @@ async function getUser() {
     const data = await client('me', { token })
     user = data.user
   }
+
   return user
 }
 
@@ -50,21 +50,7 @@ function App() {
   }
 
   if (isError) {
-    return (
-      <div
-        css={{
-          color: colors.danger,
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <p>Ooops! There is a problem. Try refreshing the app.</p>
-        <pre>{error.message}</pre>
-      </div>
-    )
+    return <FullPageErrorFallback error={error} />
   }
 
   if (isSuccess) {
