@@ -2,6 +2,7 @@
 import { jsx } from '@emotion/core'
 
 import * as React from 'react'
+import { AuthContext } from './context/auth-context'
 import {
   Input,
   Button,
@@ -64,7 +65,8 @@ function LoginForm({ onSubmit, submitButton }) {
   )
 }
 
-function UnauthenticatedApp({ login, register }) {
+function UnauthenticatedApp() {
+  const { login, register } = React.useContext(AuthContext)
   return (
     <div
       css={{

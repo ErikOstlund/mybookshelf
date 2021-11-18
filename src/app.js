@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { FullPageSpinner, FullPageErrorFallback } from './components/lib'
 import { client } from './utils/api-client'
 import { useAsync } from './utils/hooks'
+import { AuthContext } from './context/auth-context'
 import { AuthenticatedApp } from './authenticated-app'
 import { UnauthenticatedApp } from './unauthenticated-app'
 
@@ -55,12 +56,16 @@ function App() {
 
   if (isSuccess) {
     const props = { user, login, register, logout }
-    return user ? (
-      <Router>
-        <AuthenticatedApp {...props} />
-      </Router>
-    ) : (
-      <UnauthenticatedApp {...props} />
+    return (
+      <AuthContext.Provider value={props}>
+        {user ? (
+          <Router>
+            <AuthenticatedApp {...props} />
+          </Router>
+        ) : (
+          <UnauthenticatedApp {...props} />
+        )}
+      </AuthContext.Provider>
     )
   }
 }
