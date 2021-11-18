@@ -63,7 +63,7 @@ function App() {
             <AuthenticatedApp {...props} />
           </Router>
         ) : (
-          <UnauthenticatedApp {...props} />
+          <UnauthenticatedApp />
         )}
       </AuthContext.Provider>
     )

@@ -12,7 +12,7 @@ import { BookListUL, Spinner, Input } from 'components/lib'
 function DiscoverBooksScreen({ user }) {
   const [query, setQuery] = React.useState('')
   const [queried, setQueried] = React.useState(false)
-  const { books, error, status } = useBookSearch(query, user)
+  const { books, error, status } = useBookSearch(query)
 
   React.useEffect(() => {
     return () => refetchBookSearchQuery(user)
