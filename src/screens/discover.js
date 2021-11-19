@@ -4,21 +4,20 @@ import { jsx } from '@emotion/core'
 import * as React from 'react'
 import Tooltip from '@reach/tooltip'
 import { FaSearch, FaTimes } from 'react-icons/fa'
-import { useBookSearch, refetchBookSearchQuery } from 'utils/books'
-import { AuthContext } from 'context/auth-context'
+import { useBookSearch, useRefetchBookSearchQuery } from 'utils/books'
 import * as colors from 'styles/colors'
 import { BookRow } from 'components/book-row'
 import { BookListUL, Spinner, Input } from 'components/lib'
 
 function DiscoverBooksScreen() {
-  const { user } = React.useContext(AuthContext)
   const [query, setQuery] = React.useState('')
   const [queried, setQueried] = React.useState(false)
   const { books, error, status } = useBookSearch(query)
+  const refetchBookSearchQuery = useRefetchBookSearchQuery()
 
   React.useEffect(() => {
-    return () => refetchBookSearchQuery(user)
-  }, [user])
+    return () => refetchBookSearchQuery()
+  }, [refetchBookSearchQuery])
 
   const isLoading = status === 'loading'
   const isSuccess = status === 'success'
@@ -91,7 +90,7 @@ function DiscoverBooksScreen() {
           <BookListUL css={{ marginTop: 20 }}>
             {books.map(book => (
               <li key={book.id} aria-label={book.title}>
-                <BookRow user={user} key={book.id} book={book} />
+                <BookRow key={book.id} book={book} />
               </li>
             ))}
           </BookListUL>
