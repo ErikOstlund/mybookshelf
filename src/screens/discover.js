@@ -5,11 +5,13 @@ import * as React from 'react'
 import Tooltip from '@reach/tooltip'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 import { useBookSearch, refetchBookSearchQuery } from 'utils/books'
+import { AuthContext } from 'context/auth-context'
 import * as colors from 'styles/colors'
 import { BookRow } from 'components/book-row'
 import { BookListUL, Spinner, Input } from 'components/lib'
 
-function DiscoverBooksScreen({ user }) {
+function DiscoverBooksScreen() {
+  const { user } = React.useContext(AuthContext)
   const [query, setQuery] = React.useState('')
   const [queried, setQueried] = React.useState(false)
   const { books, error, status } = useBookSearch(query)
