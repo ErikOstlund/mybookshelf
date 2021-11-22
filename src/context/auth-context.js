@@ -2,4 +2,13 @@ import React from 'react'
 
 const AuthContext = React.createContext()
 
-export { AuthContext }
+function useAuth() {
+  const context = React.useContext(AuthContext)
+
+  if (context === undefined) {
+    throw new Error('useAuth must be used within the AuthContext Provider')
+  }
+  return context
+}
+
+export { AuthContext, useAuth }
