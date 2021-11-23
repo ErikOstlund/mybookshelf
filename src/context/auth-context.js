@@ -71,7 +71,17 @@ function useAuth() {
   return context
 }
 
+function useClient() {
+  const {
+    user: { token }
+  } = useAuth()
+  return React.useCallback(
+    (endpoint, config) => client(endpoint, { ...config, token }),
+    [token]
+  )
+}
+
 // in other components:
 // to use AuthContext.Provider import AuthProvider
 // to use context data, import useAuth
-export { AuthProvider, useAuth }
+export { AuthProvider, useAuth, useClient }
