@@ -39,6 +39,29 @@ test('adds auth token when a token is provided', async () => {
   expect(request.headers.get('Authorization')).toBe(`Bearer ${token}`)
 })
 
-test('allows for config overrides', async () => {})
+test('allows for config overrides', async () => {
+  const endpoint = 'test-endpoint'
+  const mockResult = { mockValue: 'VALUE' }
+  let request
 
-test('when data provided, it is stringified and method defaults to POST', async () => {})
+  server.use(
+    rest.put(`${apiURL}/${endpoint}`, async (req, res, ctx) => {
+      request = req
+      return res(ctx.json(mockResult))
+    })
+  )
+
+  // create the custom config
+  const customConfig = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'mock-type' }
+  }
+
+  await client(endpoint, customConfig)
+
+  expect(request.headers.get('Content-Type')).toBe(
+    customConfig.headers['Content-Type']
+  )
+})
+
+// test('when data provided, it is stringified and method defaults to POST', async () => {})
