@@ -64,4 +64,20 @@ test('allows for config overrides', async () => {
   )
 })
 
-// test('when data provided, it is stringified and method defaults to POST', async () => {})
+test('when data provided, it is stringified and method defaults to POST', async () => {
+  const endpoint = 'test-endpoint'
+
+  server.use(
+    rest.post(`${apiURL}/${endpoint}`, async (req, res, ctx) => {
+      return res(ctx.json(req.body))
+    })
+  )
+
+  const data = {
+    mock: 'data'
+  }
+
+  const result = await client(endpoint, { data })
+
+  expect(result).toEqual(data)
+})
