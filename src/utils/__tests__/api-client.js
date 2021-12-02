@@ -8,11 +8,6 @@ const apiURL = process.env.REACT_APP_API_URL
 jest.mock('react-query')
 jest.mock('auth-provider')
 
-beforeAll(() => server.listen())
-afterAll(() => server.close())
-// removes the one-off handlers for each individual test
-afterEach(() => server.resetHandlers())
-
 test('makes GET requests to the given endpoint', async () => {
   const endpoint = 'test-endpoint'
   const mockResult = { mockValue: 'VALUE' }
