@@ -1,7 +1,12 @@
+import { queryCache } from 'react-query'
+import * as auth from 'auth-provider'
 import { server, rest } from 'test/server'
 import { client } from '../api-client'
 
 const apiURL = process.env.REACT_APP_API_URL
+
+jest.mock('react-query')
+jest.mock('auth-provider')
 
 beforeAll(() => server.listen())
 afterAll(() => server.close())
@@ -80,4 +85,21 @@ test('when data provided, it is stringified and method defaults to POST', async 
   const result = await client(endpoint, { data })
 
   expect(result).toEqual(data)
+})
+
+test('auto log-out user if request returns 401', async () => {
+  const endpoint = 'test-endpoint'
+  const mockResult = { mockValue: 'VALUE' }
+
+  server.use(
+    rest.get(`${apiURL}/${endpoint}`, async (_req, res, ctx) => {
+      return res(ctx.status(401), ctx.json(mockResult))
+    })
+  )
+  const result = await client(endpoint).catch(error => error)
+
+  expect(result.message).toMatchInlineSnapshot(`"Error: Log-in again."`)
+
+  expect(queryCache.clear).toHaveBeenCalledTimes(1)
+  expect(auth.logout).toHaveBeenCalledTimes(1)
 })
